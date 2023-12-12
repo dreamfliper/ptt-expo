@@ -17,11 +17,11 @@ const getFavorites = () =>
   })
 
 export default function TabOneScreen() {
-  getFavorites().then(console.log)
+  getFavorites().then(({ data }) => {})
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-xl font-bold">Tab One</Text>
+      <View className="my-7 h-0.5 w-5/6" lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   )
