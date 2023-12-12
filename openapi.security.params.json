@@ -1,0 +1,4218 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "openbbs-middleware",
+        "version": "0.33.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.devptt.dev"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "misc"
+                ],
+                "summary": "index",
+                "responses": {
+                    "200": {
+                        "description": "index",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/account/login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Login",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AccountLoginParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccessToken"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/AccountLoginParams"
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/account/refresh": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Refresh",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "properties": {
+                            "client_id": {
+                                "type": "string",
+                                "required": true,
+                                "description": "client-id, use \"test_client_id\" in the dev env."
+                            },
+                            "client_secret": {
+                                "type": "string",
+                                "required": true,
+                                "description": "client-secret, use \"test_client_secret\" in the dev env."
+                            },
+                            "refresh_token": {
+                                "type": "string",
+                                "description": "refresh token"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {}
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccessToken"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/account/logout": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Logout",
+                "responses": {
+                    "303": {
+                        "description": "redirect to /",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/account/register": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "AccountRegister",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AccountRegisterParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "registed",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccessToken"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/AccountRegisterParams"
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/account/attemptregister": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "AttemptRegisterUser",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/account_attemptregister_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "registed",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "client_id": {
+                                    "type": "string"
+                                },
+                                "client_secret": {
+                                    "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/account/existsuser": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Check Exists User",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/account_existsuser_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "registed",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "client_id": {
+                                    "type": "string"
+                                },
+                                "client_secret": {
+                                    "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/articles/popular": {
+            "get": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "(mock) \u5217\u51fa\u71b1\u9580\u6587\u7ae0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/favorites": {
+            "get": {
+                "tags": [
+                    "user",
+                    "board"
+                ],
+                "summary": "\u8b80\u53d6\u6211\u7684\u6700\u611b (\u677f)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "level_idx",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "default": "",
+                        "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsAsc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/favorites/addboard": {
+            "post": {
+                "tags": [
+                    "user",
+                    "board"
+                ],
+                "summary": "\u52a0\u677f\u81f3\u6211\u7684\u6700\u611b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "level_idx": {
+                                    "type": "string",
+                                    "default": "",
+                                    "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx"
+                                },
+                                "bid": {
+                                    "type": "string",
+                                    "description": "board-id"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/favorites_addboard_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardSummary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/favorites/addfolder": {
+            "post": {
+                "tags": [
+                    "user",
+                    "board"
+                ],
+                "summary": "\u52a0\u76ee\u9304\u81f3\u6211\u7684\u6700\u611b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "level_idx": {
+                                    "type": "string",
+                                    "default": "",
+                                    "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx"
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "title"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/favorites_addfolder_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardSummary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/favorites/addline": {
+            "post": {
+                "tags": [
+                    "user",
+                    "board"
+                ],
+                "summary": "\u52a0\u5206\u9694\u7dda\u81f3\u6211\u7684\u6700\u611b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "level_idx": {
+                                    "type": "string",
+                                    "default": "",
+                                    "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/favorites_addline_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardSummary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/favorites/delete": {
+            "post": {
+                "tags": [
+                    "user",
+                    "board"
+                ],
+                "summary": "\u522a\u9664\u6211\u7684\u6700\u611b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "level_idx": {
+                                    "type": "string",
+                                    "default": "",
+                                    "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx"
+                                },
+                                "idx": {
+                                    "type": "string",
+                                    "default": "",
+                                    "description": "index."
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/favorites_delete_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_2"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/boards": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "\u5217\u51fa\u6240\u6709\u677f (\u53ef\u7528\u82f1\u6587\u677f\u540d\u641c\u5c0b)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsTitle"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsKeyword"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsAsc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/boards/byclass": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "\u5217\u51fa\u6240\u6709\u677f, \u4ee5\u985e\u5225\u512a\u5148\u6392\u5e8f (\u53ef\u7528\u82f1\u6587\u677f\u540d\u641c\u5c0b)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsTitle"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsKeyword"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsAsc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/boards/autocomplete": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "\u5217\u51fa\u6240\u6709\u677f (\u53ef\u7528\u82f1\u6587\u677f\u540d\u641c\u5c0b)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsBrdname"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsAsc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/boards/popular": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "\u5217\u51fa\u71b1\u9580\u770b\u677f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cls/{clsid}": {
+            "get": {
+                "tags": [
+                    "board",
+                    "class"
+                ],
+                "summary": "\u8b80\u53d6\u5206\u985e\u770b\u677f\u7684 list",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "clsid",
+                        "in": "path",
+                        "required": true,
+                        "description": "class bid (pttbid) obtained from board-list, root: 1",
+                        "type": "number"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsSortBy"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsAsc"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "\u62ff\u5230\u672c\u4eba\u7684\u6240\u6709\u8cc7\u8a0a.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsFields"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDetail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/userid": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "\u5f97\u5230 UserID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_3"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/summary": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "\u62ff\u5230 user \u7684 summary \u8cc7\u8a0a.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsFields"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSummary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/updatepasswd": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "ChangePasswd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/ChangePasswdParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswdParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccessToken"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/articles": {
+            "get": {
+                "tags": [
+                    "user",
+                    "article"
+                ],
+                "summary": "\u5217\u51fa\u4f7f\u7528\u8005\u7684\u6240\u6709\u6587\u7ae0.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/comments": {
+            "get": {
+                "tags": [
+                    "user",
+                    "comment"
+                ],
+                "summary": "\u5217\u51fa\u4f7f\u7528\u8005\u7684\u6240\u6709 comments.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleCommentList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{user_id}/attemptchangeemail": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Attempt Change Email",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/AttemptChangeEmailParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AttemptChangeEmailParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AttemptChangeEmailResult"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/changeemail": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Change Email",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/ChangeEmailParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangeEmailParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChangeEmailResult"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/attemptsetidemail": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Attempt Set ID Email",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/AttemptSetIDEmailParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AttemptSetIDEmailParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AttemptSetIDEmailResult"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/user/{user_id}/setidemail": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Set ID Email",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/SetIDEmailParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SetIDEmailParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SetIDEmailResult"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/manuals": {
+            "get": {
+                "tags": [
+                    "board",
+                    "article",
+                    "manual"
+                ],
+                "summary": "\u8b80\u53d6\u677f\u88e1\u7684\u7cbe\u83ef\u5340\u7684\u6587\u7ae0\u5217\u8868",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "description": "board bid obtained from board-list",
+                        "type": "string"
+                    },
+                    {
+                        "name": "level_idx",
+                        "in": "query",
+                        "description": "query string, '' returns root level",
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ManArticleList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/manual/{aid}": {
+            "get": {
+                "tags": [
+                    "article",
+                    "manual"
+                ],
+                "summary": "\u7cbe\u83ef\u5340\u7684\u6587\u7ae0\u7684\u8a73\u7d30\u8cc7\u8a0a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsFields"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ManArticleDetail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/manualblocks/{aid}": {
+            "get": {
+                "tags": [
+                    "article",
+                    "manual"
+                ],
+                "summary": "\u7cbe\u83ef\u5340\u6587\u7ae0\u7684\u8a73\u7d30\u8cc7\u8a0a (\u4ee5\u6bcf 50 \u884c\u70ba\u4e00\u500b block)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ManArticleBlock"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/articles": {
+            "get": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "\u8b80\u53d6\u677f\u88e1\u7684\u6587\u7ae0\u5217\u8868",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "description": "board bid obtained from board-list",
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": false,
+                        "description": "query string, '' returns all articles",
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/articles/bottom": {
+            "get": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "\u8b80\u53d6\u7f6e\u5e95\u6587\u7ae0.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "description": "board bid obtained from board-list",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/article/{aid}": {
+            "get": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "\u6587\u7ae0\u7684\u8a73\u7d30\u8cc7\u8a0a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsFields"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleDetail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/articleblocks/{aid}": {
+            "get": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "\u6587\u7ae0\u7684\u8a73\u7d30\u8cc7\u8a0a (\u4ee5\u6bcf 50 \u884c\u70ba\u4e00\u500b block)",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleBlock"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/article": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "Create Article",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/CreateArticleParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateArticleParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticleSummary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/deletearticles": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "Delete Articles",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/DeleteArticlesParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeleteArticlesParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_4"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/comments": {
+            "get": {
+                "tags": [
+                    "article",
+                    "comment"
+                ],
+                "summary": "\u8b80\u53d6\u6587\u7ae0\u88e1\u7684 comments (\u5f9e\u6700\u65b0\u958b\u59cb\u5f80\u4ee5\u524d\u62c9\u8cc7\u6599. (response \u6642\u820a\u7684\u6392\u5728\u524d\u9762.))",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/article/{aid}/comment": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article",
+                    "comment"
+                ],
+                "summary": "Create Comment",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "number",
+                                    "description": "<a href=\"https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/comment_type.go\">recommend/boo/comment</a>"
+                                },
+                                "content": {
+                                    "type": "string",
+                                    "description": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_comment_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/crosspost": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "Cross Post",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "xbid": {
+                                    "type": "string",
+                                    "description": "cross post board-id"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_crosspost_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_5"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/rank": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article",
+                    "rank"
+                ],
+                "summary": "Create Rank",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article-id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "rank": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_rank_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_6"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/edit": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article"
+                ],
+                "summary": "Edit Article",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "$ref": "#/definitions/Content"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_edit_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_7"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/replycomments": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article",
+                    "comment"
+                ],
+                "summary": "Reply Comments",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "list": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ReplyCommentParams"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_replycomments_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_8"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}/article/{aid}/deletecomments": {
+            "post": {
+                "tags": [
+                    "board",
+                    "article",
+                    "comment"
+                ],
+                "summary": "Delete Comments",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "board id"
+                    },
+                    {
+                        "name": "aid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "article id"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "type": "object",
+                            "properties": {
+                                "list": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/DeleteCommentParams"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/aid_deletecomments_body"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_4"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/board/{bid}": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "GetBoardDetail",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "description": "board-id",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsFields"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardDetail"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardDetailFail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/summary": {
+            "get": {
+                "tags": [
+                    "board"
+                ],
+                "summary": "GetBoardSummary",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardSummary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/board/{bid}/users": {
+            "get": {
+                "tags": [
+                    "board",
+                    "user"
+                ],
+                "summary": "\u8b80\u53d6\u677f\u7684\u4e0a\u7dda\u677f\u53cb\u540d\u55ae",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "bid",
+                        "in": "path",
+                        "required": true,
+                        "description": "board bid obtained from board-list",
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "description": "query string, '' returns all users",
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsStartIdx"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsLimit"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ParamsDesc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/class/{cls}/board": {
+            "post": {
+                "tags": [
+                    "board",
+                    "class"
+                ],
+                "summary": "Create Board",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/ParamsAuthorization"
+                    },
+                    {
+                        "name": "cls",
+                        "in": "path",
+                        "required": true,
+                        "type": "number",
+                        "description": "class number"
+                    },
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$id": "https://json-schema.org/draft/2019-09/output/schema",
+                            "$ref": "#/components/schemas/CreateBoardParams"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBoardParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "null",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardSummary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-codegen-request-body-name": "params"
+            }
+        },
+        "/api/version": {
+            "get": {
+                "tags": [
+                    "misc"
+                ],
+                "summary": "Version",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_9"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/uservisitcount": {
+            "get": {
+                "tags": [
+                    "misc"
+                ],
+                "summary": "Version",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_10"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AccessToken": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "access_token": {
+                        "type": "string"
+                    },
+                    "token_type": {
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "type": "string"
+                    },
+                    "access_expire": {
+                        "type": "number",
+                        "description": "expire time (in unix-time) of access token"
+                    },
+                    "refresh_expire": {
+                        "type": "number",
+                        "description": "expire time (in unix-time) of refresh token"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "AccountLoginParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "username"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AccountRegisterParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "username"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "password_confirm": {
+                        "type": "string"
+                    },
+                    "over18": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "realname": {
+                        "type": "string"
+                    },
+                    "career": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    }
+                }
+            },
+            "BoardList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BoardSummary"
+                        }
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "BoardSummary": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string",
+                        "description": "system-defined board-id"
+                    },
+                    "brdname": {
+                        "type": "string",
+                        "description": "user-defined board-name (\u82f1\u6587\u677f\u540d)"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "\u4e2d\u6587\u677f\u540d"
+                    },
+                    "flag": {
+                        "type": "number",
+                        "description": "board attribute (https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/brdattr.go)"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "\u677f\u7684\u7a2e\u985e (\u25a1, \u25ce, ...)"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u677f\u7684\u985e\u5225"
+                    },
+                    "nuser": {
+                        "type": "number",
+                        "description": "\u4eba\u6c23"
+                    },
+                    "moderators": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/user_id"
+                        }
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "\u4e0d\u7d66\u770b\u7684\u539f\u56e0."
+                    },
+                    "total": {
+                        "type": "number",
+                        "description": "\u6587\u7ae0\u7e3d\u6578."
+                    },
+                    "last_post_time": {
+                        "type": "number",
+                        "description": "\u4e0a\u6b21 post \u7684\u6642\u9593."
+                    },
+                    "stat_attr": {
+                        "type": "number",
+                        "description": "bord-stat atttribute (folder/line/board) (https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/board_stat.go)"
+                    },
+                    "level_idx": {
+                        "type": "string",
+                        "description": "folder \u7684 level-idx"
+                    },
+                    "gid": {
+                        "type": "number",
+                        "description": "group-id in pttbbs"
+                    },
+                    "pttbid": {
+                        "type": "number",
+                        "description": "bid in pttbbs"
+                    },
+                    "idx": {
+                        "type": "string",
+                        "description": "index"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "url"
+                    },
+                    "read": {
+                        "type": "boolean",
+                        "description": "\u5df2\u8b80\u9019\u500b\u677f\u7684\u6700\u65b0\u6587\u7ae0."
+                    },
+                    "fav": {
+                        "type": "boolean",
+                        "description": "\u6211\u7684\u6700\u611b."
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ParamsAuthorization": {
+                "name": "Authorization",
+                "in": "header",
+                "required": false,
+                "description": "bearer [token]",
+                "type": "string",
+                "default": ""
+            },
+            "ParamsLimit": {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "description": "max number of the returned list, requiring <= 200",
+                "type": "number",
+                "default": 200
+            },
+            "ParamsStartIdx": {
+                "name": "start_idx",
+                "in": "query",
+                "required": false,
+                "description": "starting idx, '' if fetch from the beginning.",
+                "type": "string",
+                "default": ""
+            },
+            "RespNextIdx": {
+                "type": "string"
+            },
+            "user_id": {
+                "type": "string",
+                "description": "user_id"
+            },
+            "BoardDetail": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string",
+                        "description": "system-defined board-id"
+                    },
+                    "brdname": {
+                        "type": "string",
+                        "description": "user-defined board-name (\u82f1\u6587\u677f\u540d)"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "\u4e2d\u6587\u677f\u540d"
+                    },
+                    "flag": {
+                        "type": "number",
+                        "description": "board attribute (https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/brdattr.go)"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "\u677f\u7684\u7a2e\u985e (\u25a1, \u25ce, ...)"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u677f\u7684\u985e\u5225"
+                    },
+                    "nuser": {
+                        "type": "number",
+                        "description": "\u4eba\u6c23"
+                    },
+                    "moderators": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/user_id"
+                        }
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "\u4e0d\u7d66\u770b\u7684\u539f\u56e0."
+                    },
+                    "total": {
+                        "type": "number",
+                        "description": "\u6587\u7ae0\u7e3d\u6578."
+                    },
+                    "last_post_time": {
+                        "type": "number",
+                        "description": "\u4e0a\u6b21 post \u7684\u6642\u9593."
+                    },
+                    "stat_attr": {
+                        "type": "number",
+                        "description": "bord-stat atttribute (folder/line/board) (https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/board_stat.go)"
+                    },
+                    "level_idx": {
+                        "type": "string",
+                        "description": "folder \u7684 level-idx"
+                    },
+                    "gid": {
+                        "type": "number",
+                        "description": "group-id in pttbbs"
+                    },
+                    "pttbid": {
+                        "type": "number",
+                        "description": "bid in pttbbs"
+                    },
+                    "idx": {
+                        "type": "string",
+                        "description": "index"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "url"
+                    },
+                    "update_time": {
+                        "type": "number",
+                        "description": "update \u6642\u9593"
+                    },
+                    "vote_limit_logins": {
+                        "type": "number",
+                        "description": "\u6700\u5c11 login \u6b21\u6578\u624d\u80fd\u6295\u7968"
+                    },
+                    "post_limit_logins": {
+                        "type": "number",
+                        "description": "\u6700\u5c11 login \u6b21\u6578\u624d\u80fd po \u6587"
+                    },
+                    "vote_limit_bad_post": {
+                        "type": "number",
+                        "description": "\u81f3\u591a\u52a3\u6587\u6b21\u6578\u624d\u80fd\u6295\u7968."
+                    },
+                    "post_limit_bad_post": {
+                        "type": "number",
+                        "description": "\u81f3\u591a\u52a3\u6587\u6b21\u6578\u624d\u80fd po \u6587."
+                    },
+                    "vote": {
+                        "type": "number",
+                        "description": "\u6b63\u5728\u8209\u884c\u7684\u6295\u7968\u7684\u4eba\u6578"
+                    },
+                    "vtime": {
+                        "type": "number",
+                        "description": "\u6295\u7968\u622a\u6b62\u6642\u9593."
+                    },
+                    "level": {
+                        "type": "number",
+                        "description": "\u9019\u500b\u677f\u7684\u6b0a\u9650."
+                    },
+                    "last_set_time": {
+                        "type": "number",
+                        "description": "\u6700\u65b0\u8a2d\u5b9a\u6642\u9593."
+                    },
+                    "link_pttbid": {
+                        "type": "number",
+                        "description": "\u770b\u677f\u9023\u7d50\u7684 bid."
+                    },
+                    "post_type": {
+                        "type": "array",
+                        "description": "post types.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "post_tmpl": {
+                        "type": "array",
+                        "description": "post types.",
+                        "items": {
+                            "type": "boolean"
+                        }
+                    },
+                    "end_gamble": {
+                        "type": "number",
+                        "description": "\u8ced\u76e4\u7d50\u675f\u6642\u9593"
+                    },
+                    "fast_recommend_pause": {
+                        "type": "number",
+                        "description": "\u63a8\u6587\u6700\u77ed\u9593\u9694\u6642\u9593"
+                    },
+                    "chesscountry": {
+                        "type": "number",
+                        "description": "\u68cb\u570b"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "BoardDetailFail": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string",
+                        "description": "system-defined board-id"
+                    },
+                    "moderators": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/user_id"
+                        }
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "\u4e0d\u7d66\u770b\u7684\u539f\u56e0."
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ArticleSummary": {
+                "type": "object",
+                "properties": {
+                    "aid": {
+                        "type": "string"
+                    },
+                    "bid": {
+                        "type": "string"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "recommend": {
+                        "type": "number"
+                    },
+                    "n_comments": {
+                        "type": "number"
+                    },
+                    "owner": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "po \u6587\u6642\u9593 (\u6708/\u65e5)"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u7a2e\u985e (\u25a1, R:, \u8f49)"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u985e\u5225 (\u5fc3\u60c5, \u8a0e\u8ad6, \u65b0\u805e)"
+                    },
+                    "mode": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/file_mode.go"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "read": {
+                        "type": "boolean"
+                    },
+                    "idx": {
+                        "type": "string"
+                    },
+                    "rank": {
+                        "type": "number"
+                    },
+                    "subject_type": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/v0.16.2/ptttype/subject_type.go"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ArticleList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ArticleSummary"
+                        }
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ArticleDetail": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string"
+                    },
+                    "aid": {
+                        "type": "string"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "recommend": {
+                        "type": "number"
+                    },
+                    "n_comments": {
+                        "type": "number"
+                    },
+                    "owner": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "po \u6587\u6642\u9593 (\u6708/\u65e5)"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u7a2e\u985e (\u25a1, R:, \u8f49)"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u985e\u5225 (\u5fc3\u60c5, \u8a0e\u8ad6, \u65b0\u805e)"
+                    },
+                    "mode": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/file_mode.go"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "read": {
+                        "type": "boolean"
+                    },
+                    "idx": {
+                        "type": "string"
+                    },
+                    "rank": {
+                        "type": "number"
+                    },
+                    "subject_type": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/v0.16.2/ptttype/subject_type.go"
+                    },
+                    "brdname": {
+                        "type": "string",
+                        "description": "\u82f1\u6587\u677f\u540d"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "prefix": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "nickname": {
+                        "type": "string",
+                        "description": "\u4f5c\u8005\u66b1\u7a31"
+                    },
+                    "ip": {
+                        "type": "string",
+                        "description": "\u4f5c\u8005 ip."
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "ip \u7684\u4e2d\u6587\u5448\u73fe, \u5916\u570b\u5247\u70ba\u570b\u5bb6."
+                    },
+                    "bbs": {
+                        "type": "string",
+                        "description": "\u767c\u4fe1\u7ad9."
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "Rune": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    },
+                    "color0": {
+                        "$ref": "#/components/schemas/Color"
+                    },
+                    "color1": {
+                        "$ref": "#/components/schemas/Color"
+                    }
+                }
+            },
+            "Color": {
+                "type": "object",
+                "properties": {
+                    "foreground": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-openbbsmiddleware/blob/main/types/color.go"
+                    },
+                    "background": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-openbbsmiddleware/blob/main/types/color.go"
+                    },
+                    "blink": {
+                        "type": "boolean"
+                    },
+                    "highlight": {
+                        "type": "boolean"
+                    },
+                    "reset": {
+                        "type": "boolean",
+                        "description": "\u662f\u5426\u662f reset (^[m)"
+                    }
+                }
+            },
+            "CommentList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Comment"
+                        }
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                },
+                "description": "comments."
+            },
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string",
+                        "description": "system-defined board-id"
+                    },
+                    "aid": {
+                        "type": "string"
+                    },
+                    "cid": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "<a href=\"https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/comment_type.go\">\u63a8\u6587\u7a2e\u985e</a>"
+                    },
+                    "refid": {
+                        "type": "string",
+                        "description": "\u662f\u5728\u56de\u61c9\u54ea\u500b comment. \u7b2c 0 \u5c64\u662f ''"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "create_time": {
+                        "type": "number",
+                        "description": "\u7559\u8a00\u6642\u9593"
+                    },
+                    "sort_time": {
+                        "type": "number",
+                        "description": "\u6392\u5e8f\u6642\u9593"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "\u767c\u63a8\u6587\u7684 user"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "ip": {
+                        "type": "string",
+                        "description": "from IP"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "from \u7684\u63cf\u8ff0 (\u570b\u540d)"
+                    },
+                    "idx": {
+                        "type": "string",
+                        "description": "idx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ParamsFields": {
+                "name": "fields",
+                "in": "query",
+                "required": false,
+                "description": "fields to retrieve, separated by ,(comma)",
+                "type": "string",
+                "default": ""
+            },
+            "UserDetail": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "string",
+                        "description": "user_id"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "realname": {
+                        "type": "string"
+                    },
+                    "flag": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/uflags.go"
+                    },
+                    "perm": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/perm.go"
+                    },
+                    "login_days": {
+                        "type": "number"
+                    },
+                    "posts": {
+                        "type": "number"
+                    },
+                    "first_login": {
+                        "type": "number",
+                        "description": "first-login in unix-time"
+                    },
+                    "last_login": {
+                        "type": "number",
+                        "description": "last-login in unix-time"
+                    },
+                    "last_ip": {
+                        "type": "string",
+                        "description": "from-ip"
+                    },
+                    "last_host": {
+                        "type": "string",
+                        "description": "last_ip \u7684\u7db2\u57df."
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "pttemail": {
+                        "type": "string",
+                        "description": "\u5728 ptt \u4e0a\u7684 email"
+                    },
+                    "justify": {
+                        "type": "string"
+                    },
+                    "over18": {
+                        "type": "boolean"
+                    },
+                    "pager_ui": {
+                        "type": "number"
+                    },
+                    "pager": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/modes.go#L5"
+                    },
+                    "invisible": {
+                        "type": "boolean",
+                        "description": "\u96b1\u8eab"
+                    },
+                    "exmail": {
+                        "type": "number",
+                        "description": "\u53ef\u5bb9\u7d0d\u7ad9\u5916\u4fe1\u6578\u91cf."
+                    },
+                    "career": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "number"
+                    },
+                    "last_seen": {
+                        "type": "number",
+                        "description": "last-seen in unix-time"
+                    },
+                    "time_set_angel": {
+                        "type": "number"
+                    },
+                    "time_play_angel": {
+                        "type": "number"
+                    },
+                    "last_song": {
+                        "type": "number",
+                        "description": "last-time the user ordered an song (in unix-time)."
+                    },
+                    "login_view": {
+                        "type": "number"
+                    },
+                    "violation": {
+                        "type": "number",
+                        "description": "violation count"
+                    },
+                    "five_win": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u8d0f)"
+                    },
+                    "five_lose": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u8f38)"
+                    },
+                    "five_tie": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u5e73)"
+                    },
+                    "chc_win": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u8d0f)"
+                    },
+                    "chc_lose": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u8f38)"
+                    },
+                    "chc_tie": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u5e73)"
+                    },
+                    "conn6_win": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u8d0f)"
+                    },
+                    "conn6_lose": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u8f38)"
+                    },
+                    "conn6_tie": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u5e73)"
+                    },
+                    "go_win": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u8d0f)"
+                    },
+                    "go_lose": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u8f38)"
+                    },
+                    "go_tie": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u5e73)"
+                    },
+                    "dark_win": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u8d0f)"
+                    },
+                    "dark_lose": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u8f38)"
+                    },
+                    "dark_tie": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u5e73)"
+                    },
+                    "chess_rank": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb\u7b49\u7d1a"
+                    },
+                    "ua_version": {
+                        "type": "number",
+                        "description": "User-agreement \u7684\u7248\u672c."
+                    },
+                    "signature": {
+                        "type": "number"
+                    },
+                    "badpost": {
+                        "type": "number",
+                        "description": "badpost count"
+                    },
+                    "angel": {
+                        "type": "string",
+                        "description": "\u5c0f\u5929\u4f7f"
+                    },
+                    "time_remove_bad_post": {
+                        "type": "number",
+                        "description": "newest removing badpost in unix-time"
+                    },
+                    "time_violate_law": {
+                        "type": "number",
+                        "description": "newest violating law in unix-time"
+                    },
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "update_ts": {
+                        "type": "number"
+                    },
+                    "perm2": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/v0.8.2/ptttype/perm2.go"
+                    },
+                    "update_ts2": {
+                        "type": "number",
+                        "description": "update-time of perm2"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "\u806f\u7d61\u7684 email"
+                    },
+                    "email_ts": {
+                        "type": "number",
+                        "description": "\u8a2d\u5b9a\u806f\u7d61 email \u7684\u6642\u9593"
+                    },
+                    "twofactor_enabled": {
+                        "type": "boolean",
+                        "description": "\u662f\u5426\u4f7f\u7528 2FA \u6a5f\u5236"
+                    },
+                    "twofactor_enabled_ts": {
+                        "type": "number",
+                        "description": "\u8a2d\u5b9a 2FA \u6a5f\u5236\u7684\u6642\u9593"
+                    },
+                    "idemail": {
+                        "type": "string",
+                        "description": "\u8a8d\u8b49 email"
+                    },
+                    "idemail_set": {
+                        "type": "boolean",
+                        "description": "\u662f\u5426\u5df2\u7d93\u8a2d\u5b9a\u5b8c\u6210\u8a8d\u8b49 email"
+                    },
+                    "idemail_ts": {
+                        "type": "number",
+                        "description": "update \u8a8d\u8b49 email \u7684\u6642\u9593."
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "Content": {
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/Rune"
+                    }
+                }
+            },
+            "ParamsAsc": {
+                "name": "asc",
+                "in": "query",
+                "required": false,
+                "description": "ascending (or descending if false)",
+                "type": "boolean",
+                "default": true
+            },
+            "ParamsDesc": {
+                "name": "desc",
+                "in": "query",
+                "required": false,
+                "description": "descending (or ascending if false)",
+                "type": "boolean",
+                "default": true
+            },
+            "ParamsTitle": {
+                "name": "title",
+                "in": "query",
+                "required": false,
+                "description": "query title, '' returns all boards",
+                "type": "string",
+                "default": ""
+            },
+            "ParamsKeyword": {
+                "name": "keyword",
+                "in": "query",
+                "required": false,
+                "description": "query keyword, '' returns all boards",
+                "type": "string",
+                "default": ""
+            },
+            "ParamsBrdname": {
+                "name": "brdname",
+                "in": "query",
+                "required": false,
+                "description": "query keyword, '' returns all boards",
+                "type": "string",
+                "default": ""
+            },
+            "UserList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserListSummary"
+                        }
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "UserListSummary": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "last_ip": {
+                        "type": "string",
+                        "description": "from-ip"
+                    },
+                    "last_host": {
+                        "type": "string",
+                        "description": "last_ip \u7684\u7db2\u57df."
+                    },
+                    "last_action": {
+                        "type": "string"
+                    },
+                    "last_action_time": {
+                        "type": "number"
+                    },
+                    "pager": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/modes.go#L5"
+                    }
+                }
+            },
+            "UserSummary": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "login_days": {
+                        "type": "number"
+                    },
+                    "post": {
+                        "type": "number"
+                    },
+                    "last_action": {
+                        "type": "string"
+                    },
+                    "last_action_time": {
+                        "type": "number"
+                    },
+                    "last_login": {
+                        "type": "number",
+                        "description": "last-login in unix-time"
+                    },
+                    "badpost": {
+                        "type": "number",
+                        "description": "badpost count"
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "five_win": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u8d0f)"
+                    },
+                    "five_lose": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u8f38)"
+                    },
+                    "five_tie": {
+                        "type": "number",
+                        "description": "\u4e94\u5b50\u68cb(\u5e73)"
+                    },
+                    "chc_win": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u8d0f)"
+                    },
+                    "chc_lose": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u8f38)"
+                    },
+                    "chc_tie": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb(\u5e73)"
+                    },
+                    "conn6_win": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u8d0f)"
+                    },
+                    "conn6_lose": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u8f38)"
+                    },
+                    "conn6_tie": {
+                        "type": "number",
+                        "description": "\u516d\u5b50\u68cb(\u5e73)"
+                    },
+                    "go_win": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u8d0f)"
+                    },
+                    "go_lose": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u8f38)"
+                    },
+                    "go_tie": {
+                        "type": "number",
+                        "description": "\u570d\u68cb(\u5e73)"
+                    },
+                    "dark_win": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u8d0f)"
+                    },
+                    "dark_lose": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u8f38)"
+                    },
+                    "dark_tie": {
+                        "type": "number",
+                        "description": "\u6697\u68cb(\u5e73)"
+                    },
+                    "chess_rank": {
+                        "type": "number",
+                        "description": "\u8c61\u68cb\u7b49\u7d1a"
+                    }
+                }
+            },
+            "ChangePasswdParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "orig_password": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "password_confirm": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AttemptChangeEmailParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email"
+                    }
+                }
+            },
+            "AttemptChangeEmailResult": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ChangeEmailParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ChangeEmailResult": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "AttemptSetIDEmailParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email"
+                    }
+                }
+            },
+            "AttemptSetIDEmailResult": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "SetIDEmailParams": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "client-id, use \"test_client_id\" in the dev env."
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "description": "client-secret, use \"test_client_secret\" in the dev env."
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SetIDEmailResult": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateBoardParams": {
+                "type": "object",
+                "properties": {
+                    "brdname": {
+                        "type": "string"
+                    },
+                    "class": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "bms": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "user-id"
+                        }
+                    },
+                    "brdattr": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/brdattr.go"
+                    },
+                    "level": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/perm.go"
+                    },
+                    "chess_country": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/ChessCode.go"
+                    },
+                    "is_group": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "CreateArticleParams": {
+                "type": "object",
+                "properties": {
+                    "class": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    }
+                }
+            },
+            "ArticleCommentList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ArticleComment"
+                        }
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ArticleComment": {
+                "type": "object",
+                "properties": {
+                    "bid": {
+                        "type": "string",
+                        "description": "system-defined board-id"
+                    },
+                    "aid": {
+                        "type": "string"
+                    },
+                    "cid": {
+                        "type": "string"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "recommend": {
+                        "type": "number"
+                    },
+                    "n_comments": {
+                        "type": "number"
+                    },
+                    "owner": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u985e\u5225 (\u5fc3\u60c5, \u8a0e\u8ad6, \u65b0\u805e)"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "read": {
+                        "type": "boolean"
+                    },
+                    "idx": {
+                        "type": "string"
+                    },
+                    "rank": {
+                        "type": "number"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "a: \u6587\u7ae0 c: \u63a8\u6587"
+                    },
+                    "ctype": {
+                        "type": "number",
+                        "description": "<a href=\"https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/comment_type.go\">\u63a8\u6587\u7a2e\u985e</a>"
+                    },
+                    "ctime": {
+                        "type": "number",
+                        "description": "\u63a8\u6587\u6642\u9593"
+                    },
+                    "comment": {
+                        "$ref": "#/components/schemas/Content"
+                    }
+                }
+            },
+            "ParamsSortBy": {
+                "name": "sortby",
+                "in": "query",
+                "required": false,
+                "description": "<a href=\"https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/bsort_by.go\">sort-by</a>",
+                "default": "0 (sort-by-name)"
+            },
+            "DeleteCommentParams": {
+                "type": "object",
+                "properties": {
+                    "cid": {
+                        "type": "string",
+                        "description": "comment id"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "delete reason"
+                    }
+                }
+            },
+            "ReplyCommentParams": {
+                "type": "object",
+                "properties": {
+                    "cid": {
+                        "type": "string",
+                        "description": "comment id"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    }
+                }
+            },
+            "DeleteArticlesParams": {
+                "type": "object",
+                "properties": {
+                    "aids": {
+                        "type": "array",
+                        "description": "array of to-be-delete article-ids",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "ArticleBlock": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "recommend": {
+                        "type": "number"
+                    },
+                    "n_comments": {
+                        "type": "number"
+                    },
+                    "rank": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "money": {
+                        "type": "number"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "\u6587\u7ae0\u7684\u985e\u5225 (\u5fc3\u60c5, \u8a0e\u8ad6, \u65b0\u805e)"
+                    },
+                    "mode": {
+                        "type": "number",
+                        "description": "https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/file_mode.go"
+                    },
+                    "owner": {
+                        "type": "string"
+                    },
+                    "nickname": {
+                        "type": "string",
+                        "description": "\u4f5c\u8005\u66b1\u7a31"
+                    },
+                    "ip": {
+                        "type": "string",
+                        "description": "\u4f5c\u8005 ip."
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "ip \u7684\u4e2d\u6587\u5448\u73fe, \u5916\u570b\u5247\u70ba\u570b\u5bb6."
+                    },
+                    "bbs": {
+                        "type": "string",
+                        "description": "\u767c\u4fe1\u7ad9."
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ManArticleSummary": {
+                "type": "object",
+                "properties": {
+                    "aid": {
+                        "type": "string"
+                    },
+                    "bid": {
+                        "type": "string"
+                    },
+                    "level_idx": {
+                        "type": "string",
+                        "description": "\u662f\u5728\u54ea\u4e00\u500b level (\u4f7f\u7528 aid \u8868\u793a)"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "is_dir": {
+                        "type": "boolean"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ManArticleList": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ManArticleSummary"
+                        }
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "ManArticleBlock": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "is deleted"
+                    },
+                    "create_time": {
+                        "type": "number"
+                    },
+                    "modified": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "next_idx": {
+                        "$ref": "#/components/schemas/RespNextIdx"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "account_attemptregister_body": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string"
+                    },
+                    "client_secret": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "account_existsuser_body": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string"
+                    },
+                    "client_secret": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200_1": {
+                "type": "object",
+                "properties": {
+                    "is_exists": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "favorites_addboard_body": {
+                "type": "object",
+                "properties": {
+                    "level_idx": {
+                        "type": "string",
+                        "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx",
+                        "default": ""
+                    },
+                    "bid": {
+                        "type": "string",
+                        "description": "board-id"
+                    }
+                }
+            },
+            "favorites_addfolder_body": {
+                "type": "object",
+                "properties": {
+                    "level_idx": {
+                        "type": "string",
+                        "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx",
+                        "default": ""
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "title"
+                    }
+                }
+            },
+            "favorites_addline_body": {
+                "type": "object",
+                "properties": {
+                    "level_idx": {
+                        "type": "string",
+                        "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx",
+                        "default": ""
+                    }
+                }
+            },
+            "favorites_delete_body": {
+                "type": "object",
+                "properties": {
+                    "level_idx": {
+                        "type": "string",
+                        "description": "\u5f9e folder \u7684 info \u88e1\u62ff\u5230\u7684 level_idx",
+                        "default": ""
+                    },
+                    "idx": {
+                        "type": "string",
+                        "description": "index.",
+                        "default": ""
+                    }
+                }
+            },
+            "inline_response_200_2": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "description": "\u662f\u5426\u6210\u529f\u522a\u9664."
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "inline_response_200_3": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200_4": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "aid_comment_body": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "number",
+                        "description": "<a href=\"https://github.com/Ptt-official-app/go-pttbbs/blob/main/ptttype/comment_type.go\">recommend/boo/comment</a>"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "string"
+                    }
+                }
+            },
+            "aid_crosspost_body": {
+                "type": "object",
+                "properties": {
+                    "xbid": {
+                        "type": "string",
+                        "description": "cross post board-id"
+                    }
+                }
+            },
+            "inline_response_200_5": {
+                "type": "object",
+                "properties": {
+                    "article": {
+                        "$ref": "#/components/schemas/ArticleSummary"
+                    },
+                    "comment": {
+                        "$ref": "#/components/schemas/Comment"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "aid_rank_body": {
+                "type": "object",
+                "properties": {
+                    "rank": {
+                        "type": "number"
+                    }
+                }
+            },
+            "inline_response_200_6": {
+                "type": "object",
+                "properties": {
+                    "rank": {
+                        "type": "number"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "aid_edit_body": {
+                "type": "object",
+                "properties": {
+                    "class": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    }
+                }
+            },
+            "inline_response_200_7": {
+                "type": "object",
+                "properties": {
+                    "modified": {
+                        "type": "number",
+                        "description": "mtime"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "prefix": {
+                        "$ref": "#/components/schemas/Content"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "class": {
+                        "type": "string"
+                    },
+                    "tokenuser": {
+                        "type": "string",
+                        "description": "the user-id of the token."
+                    }
+                }
+            },
+            "aid_replycomments_body": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReplyCommentParams"
+                        }
+                    }
+                }
+            },
+            "inline_response_200_8": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "aid_deletecomments_body": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeleteCommentParams"
+                        }
+                    }
+                }
+            },
+            "inline_response_200_9": {
+                "type": "object",
+                "properties": {
+                    "version": {
+                        "type": "string",
+                        "description": "version"
+                    },
+                    "commit": {
+                        "type": "string",
+                        "description": "git-commit"
+                    },
+                    "pttversion": {
+                        "type": "string",
+                        "description": "go-pttbbs version"
+                    },
+                    "pttcommit": {
+                        "type": "string",
+                        "description": "go-pttbbs git-commit"
+                    }
+                }
+            },
+            "inline_response_200_10": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "number",
+                        "description": "user visit count"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "default": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "x-original-swagger-version": "2.0",
+    "security": [
+        {
+            "default": []
+        }
+    ]
+}
